@@ -18,4 +18,60 @@ const createNewIssue = async (payload: Issue, user: any) => {
   return result;
 };
 
-export const issueService = { createNewIssue };
+const getIssues = async (sort: string, type: string, status: string) => {
+  const values: any[] = [];
+  const whereClauses: string[] = [];
+
+  // filter by type
+  if (type) {
+    values.push(type);
+    whereClauses.push(`i.type = $${values.length}`);
+  }
+
+  // filter by status
+  if (status) {
+    values.push(status);
+    whereClauses.push(`i.status = $${values.length}`);
+  }
+
+  // setup WHERE clause
+  const whereSQL =
+    whereClauses.length > 0 ? `WHERE ${whereClauses.join(" AND ")}` : "";
+
+  // setup sort logic
+  let orderBy = `ORDER BY i.created_at DESC`;
+
+  if (sort === "oldest") {
+    orderBy = `ORDER BY i.created_at ASC`;
+  }
+
+  const result = await pool.query(
+    `
+		SELECT 
+		i.id,
+		i.title,
+		i.description,
+		i.type,
+		i.status,
+
+		json_build_object(
+			'id', u.id,
+			'name', u.name,
+			'role', u.role
+		) AS reporter,
+
+		i.created_at,
+		i.updated_at
+
+		FROM issues i
+		JOIN users u ON i.reporter_id = u.id
+		${whereSQL}
+		${orderBy}
+		`,
+    values,
+  );
+
+  return result;
+};
+
+export const issueService = { createNewIssue, getIssues };

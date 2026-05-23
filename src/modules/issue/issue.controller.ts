@@ -22,4 +22,32 @@ const createIssue = async (req: Request, res: Response) => {
   }
 };
 
-export const issueController = { createIssue };
+const getIssues = async (req: Request, res: Response) => {
+  try {
+    const { sort, type, status } = req.query;
+
+    console.log(sort, type, status);
+
+    const result = await issueService.getIssues(
+      sort as string,
+      type as string,
+      status as string,
+    );
+
+    sendResponse(res, {
+      success: true,
+      message: "Issues retrieved successfully",
+      statusCode: 200,
+      data: result.rows,
+    });
+  } catch (error: any) {
+    sendResponse(res, {
+      success: false,
+      message: error.message,
+      error: error,
+      statusCode: 500,
+    });
+  }
+};
+
+export const issueController = { createIssue, getIssues };

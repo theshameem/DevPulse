@@ -1,7 +1,7 @@
 import { pool } from "../../db";
 import type { Issue } from "./issue.interface";
 
-const createNewIssue = async (payload: Issue, user: { id: string }) => {
+const createNewIssue = async (payload: Issue, userId: string) => {
   const { title, description, type, status } = payload;
 
   const result = await pool.query(
@@ -10,7 +10,7 @@ const createNewIssue = async (payload: Issue, user: { id: string }) => {
         VALUES($1, $2, $3, COALESCE($4, 'open'), $5)
         RETURNING *
         `,
-    [title, description, type, status, user.id],
+    [title, description, type, status, userId],
   );
 
   return result;

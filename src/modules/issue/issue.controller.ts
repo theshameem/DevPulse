@@ -4,7 +4,10 @@ import { issueService } from "./issue.service";
 
 const createIssue = async (req: Request, res: Response) => {
   try {
-    const result = await issueService.createNewIssue(req.body, req.user);
+    const result = await issueService.createNewIssue(
+      req.body,
+      req?.user?.id as string,
+    );
 
     sendResponse(res, {
       success: true,

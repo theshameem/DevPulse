@@ -68,4 +68,32 @@ const getIssueById = async (req: Request, res: Response) => {
   }
 };
 
-export const issueController = { createIssue, getIssues, getIssueById };
+const updateIssue = async (req: Request, res: Response) => {
+  try {
+    const result = await issueService.updateIssue(
+      req.params.id as string,
+      req.body,
+    );
+
+    sendResponse(res, {
+      success: true,
+      message: "Issue updated successfully",
+      data: result.rows[0],
+      statusCode: 200,
+    });
+  } catch (error: any) {
+    sendResponse(res, {
+      success: false,
+      message: error.message,
+      error: error,
+      statusCode: 500,
+    });
+  }
+};
+
+export const issueController = {
+  createIssue,
+  getIssues,
+  getIssueById,
+  updateIssue,
+};

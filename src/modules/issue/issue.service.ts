@@ -121,9 +121,23 @@ const updateIssue = async (id: string, payload: Issue) => {
   return result;
 };
 
+const deleteIssue = async (id: string) => {
+  const result = await pool.query(
+    `
+    DELETE FROM issues
+    WHERE id = $1
+    RETURNING *
+    `,
+    [id],
+  );
+
+  return result;
+};
+
 export const issueService = {
   createNewIssue,
   getIssues,
   getIssueById,
   updateIssue,
+  deleteIssue,
 };

@@ -52,7 +52,7 @@ const getIssueById = async (req: Request, res: Response) => {
     const { id } = req.params;
 
     const result = await issueService.getIssueById(id as string);
-    console.log(result.rows[0]);
+
     sendResponse(res, {
       success: true,
       statusCode: 200,

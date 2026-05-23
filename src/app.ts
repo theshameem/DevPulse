@@ -9,3 +9,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", authRouter);
 app.use("/api/issues", issueRouter);
+
+app.get("/", (_req, res) => {
+  res.json({
+    message: "Welcome to DevPulse API",
+    author: "theshameem",
+  });
+});

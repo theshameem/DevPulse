@@ -1,7 +1,7 @@
 import { pool } from "../../db";
 import type { Issue } from "./issue.interface";
 
-const createNewIssue = async (payload: Issue, user: any) => {
+const createNewIssue = async (payload: Issue, user: { id: string }) => {
   const { title, description, type, status } = payload;
 
   const result = await pool.query(
@@ -17,7 +17,7 @@ const createNewIssue = async (payload: Issue, user: any) => {
 };
 
 const getIssues = async (sort: string, type: string, status: string) => {
-  const values: any[] = [];
+  const values: string[] = [];
   const whereClauses: string[] = [];
 
   // filter by type

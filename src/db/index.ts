@@ -27,7 +27,7 @@ export const initDB = async () => {
       title VARCHAR(100) NOT NULL,
       description TEXT,
       type VARCHAR(20) CHECK (type IN ('bug', 'feature_request')) NOT NULL,
-      status VARCHAR(20) CHECK (status IN ('open', 'in_progress', 'resolved')) NOT NULL DEFAULT 'open',
+      status VARCHAR(20) CHECK (status IN ('open', 'in_progress', 'resolved')) DEFAULT 'open',
       reporter_id INT REFERENCES users(id) ON DELETE CASCADE,
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW()

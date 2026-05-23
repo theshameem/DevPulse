@@ -20,9 +20,6 @@ const issueUpdateAccess = () => {
 
     const issueData = issue.rows[0];
 
-    console.log("User:", user);
-    console.log("Issue Reporter ID:", issueData.reporter_id);
-
     if (
       issueData.reporter_id !== user?.id &&
       user?.role !== USER_ROLES.MAINTAINER

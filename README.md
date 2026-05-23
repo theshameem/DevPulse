@@ -2,7 +2,7 @@
 
 A modern issue tracking and management system built with TypeScript and Express.js. DevPulse enables teams to efficiently report, track, and manage bugs and feature requests with role-based access control.
 
-**Live URL**: https://github.com/theshameem/DevPulse
+**Live URL**: https://dev-pulse-sigma-lemon.vercel.app/
 
 ---
 

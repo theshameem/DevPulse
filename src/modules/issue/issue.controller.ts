@@ -26,8 +26,6 @@ const getIssues = async (req: Request, res: Response) => {
   try {
     const { sort, type, status } = req.query;
 
-    console.log(sort, type, status);
-
     const result = await issueService.getIssues(
       sort as string,
       type as string,
@@ -36,7 +34,6 @@ const getIssues = async (req: Request, res: Response) => {
 
     sendResponse(res, {
       success: true,
-      message: "Issues retrieved successfully",
       statusCode: 200,
       data: result.rows,
     });
@@ -50,4 +47,25 @@ const getIssues = async (req: Request, res: Response) => {
   }
 };
 
-export const issueController = { createIssue, getIssues };
+const getIssueById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const result = await issueService.getIssueById(id as string);
+    console.log(result.rows[0]);
+    sendResponse(res, {
+      success: true,
+      statusCode: 200,
+      data: result.rows[0] ?? {},
+    });
+  } catch (error: any) {
+    sendResponse(res, {
+      success: false,
+      message: error.message,
+      error: error,
+      statusCode: 500,
+    });
+  }
+};
+
+export const issueController = { createIssue, getIssues, getIssueById };

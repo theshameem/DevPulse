@@ -74,4 +74,30 @@ const getIssues = async (sort: string, type: string, status: string) => {
   return result;
 };
 
-export const issueService = { createNewIssue, getIssues };
+const getIssueById = async (id: string) => {
+  const result = await pool.query(
+    `
+    SELECT 
+    i.id,
+    i.title,
+    i.description,
+    i.type,
+    i.status,
+    json_build_object(
+      'id', u.id,
+      'name', u.name,
+      'role', u.role
+    ) AS reporter,
+    i.created_at,
+    i.updated_at
+    FROM issues i
+    JOIN users u ON i.reporter_id = u.id
+    WHERE i.id = $1
+    `,
+    [id],
+  );
+
+  return result;
+};
+
+export const issueService = { createNewIssue, getIssues, getIssueById };
